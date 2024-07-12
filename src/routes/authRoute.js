@@ -8,6 +8,9 @@ const authRoute = async (fastify, option) => {
 
     try {
       const response = await db.login(user);
+      if (response == false) {
+        return reply.code(400).send({ message: "Verifique Os Campos." });
+      }
       reply.code(200).send(response);
     } catch (err) {
       reply.code(500).send(err);

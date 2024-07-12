@@ -10,14 +10,14 @@ class Auth {
     const userFound = await sql`SELECT * FROM users WHERE email = ${email}`;
 
     if (userFound.length == 0) {
-      return { message: "Usuário Não Encontrado" };
+      return false;
     }
 
     const hashedPassword = userFound[0].password;
     const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
     if (!passwordMatch) {
-      return { message: "Senha Não Confere." };
+      return false;
     }
 
     userFound[0].password = "";
